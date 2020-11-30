@@ -1,6 +1,7 @@
 # v-zelenyy
 
-##my team
+# my team
+# 
 (672018026) Rani Kusuma Wardhani
 (672018200) Gilang Windu Asmara
 (672018209) Ical Ferin Balino
