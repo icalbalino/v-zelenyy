@@ -1,16 +1,17 @@
 <?php
     session_start();
     require_once('config.php');
-   function select_items() {
+   function select_items($id="") {
     global $con;
 
     $hasil = array();
-    // $sql = "SELECT * FROM tbl_data WHERE NIM = :user";
     $sql = "SELECT * FROM item";
-
+    if($id!=""){
+        $sql = "SELECT * FROM item where id = :id";
+    }
     try {
         $stmt = $con->prepare($sql);
-        // if ($user != "") $stmt->bindValue(':user', $user, PDO::PARAM_STR);
+        if ($id != "") $stmt->bindValue(':id', $id, PDO::PARAM_STR);
 
         if ($stmt->execute()) {
             $stmt->setFetchMode(PDO::FETCH_ASSOC);

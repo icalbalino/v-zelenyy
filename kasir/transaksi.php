@@ -1,6 +1,16 @@
 <?php
         require_once('../functions.php');
         $items = select_items();
+        $carts = [];
+        if(isset($_SESSION['carts'])){
+            $carts = $_SESSION['carts'];
+            echo "carts";
+        }
+        if(isset($_POST['addToCart'])){   
+            $item = select_items($_POST['id'])[0];
+            array_push($carts, $item);
+            $_SESSION['carts'] = $carts;
+        }
     ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -55,6 +65,17 @@
                             <button style="background: none; border: none"><i
                                     class="fas fa-trash text-danger"></i></button>
                         </div>
+                        <?php 
+                            foreach($carts as $cart){
+                              echo '<div class="list-group-item d-flex align-items-center">
+                                        <div class="col">'.$cart["nama"].'</div>
+                                        <div class="col">'.$cart["stok"].'</div>
+                                        <div class="col">'.$cart["harga"].'</div>
+                                        <button style="background: none; border: none"><i
+                                                class="fas fa-trash text-danger"></i></button>
+                                    </div>';
+                            }
+                        ?>
                     </div>
                     <div class="card-body" style="margin-bottom: 24px">
                         <button class="btn btn-success float-right" data-toggle="modal" data-target="#modal-item-list">Tambah Item</button>
@@ -73,7 +94,7 @@
                     </button>
                 </div>
                 <div class="modal-body vh-50 mh-50">
-                    <table class="table" id="item-table">
+                    <table class="table" id="item-table" data-page-length='5'>
                         <thead>
                             <th>Id</th>
                             <th>Nama</th>
@@ -85,10 +106,9 @@
                             foreach ($items as $item) {
                                 echo '
                                     <tr>
-                                        <form action="transaksi.php" >
-                                            
-                                            <td><input hidden>'.$item['id'].'</td>
-                                            <td>'.$item['nama'].'</td>
+                                        <form action="transaksi.php" method="POST">
+                                            <td><input hidden name="id" value="'.$item['id'].'">'.$item['id'].'</td>
+                                            <td><input class="btn btn-link" type="submit" name="addToCart" value="'.$item['nama'].'"></td>
                                             <td>'.$item['stok'].'</td>
                                             <td>'.$item['harga'].'</td>
                                         </form>
