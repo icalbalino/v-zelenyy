@@ -3,7 +3,18 @@
         $items = select_items();
         $carts = [];
         if(isset($_GET['delete'])){
-            $_SESSION['carts'] = [];
+            $carts = $_SESSION['carts'];
+            if(isset($_GET['id'])){
+                $filteredCarts = [];
+                foreach ($carts as $cart) {
+                    if($cart['id'] != $_GET['id']){
+                        array_push($filteredCarts,$cart);
+                    }
+                }
+                $_SESSION['carts'] = $filteredCarts;
+            }else{
+                $_SESSION['carts'] = [];
+            }
         }
         if(isset($_SESSION['carts'])){
             $carts = $_SESSION['carts'];
@@ -74,8 +85,8 @@
                                         <div class="col">'.$cart["nama"].'</div>
                                         <div class="col">'.$cart["stok"].'</div>
                                         <div class="col">'.$cart["harga"].'</div>
-                                        <button style="background: none; border: none"><i
-                                                class="fas fa-trash text-danger"></i></button>
+                                        <a href="transaksi.php?delete&id='.$cart['id'].'" style="background: none; border: none"><i
+                                                class="fas fa-trash text-danger"></i></a>
                                     </div>';
                             }
                         ?>
