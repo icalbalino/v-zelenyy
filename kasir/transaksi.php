@@ -2,15 +2,19 @@
         require_once('../functions.php');
         $items = select_items();
         $carts = [];
+        if(isset($_GET['delete'])){
+            $_SESSION['carts'] = [];
+        }
         if(isset($_SESSION['carts'])){
             $carts = $_SESSION['carts'];
-            echo "carts";
         }
         if(isset($_POST['addToCart'])){   
             $item = select_items($_POST['id'])[0];
             array_push($carts, $item);
             $_SESSION['carts'] = $carts;
+            header('Location: transaksi.php');
         }
+        
     ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -31,7 +35,8 @@
     
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/jq-3.3.1/dt-1.10.22/datatables.min.css"/>
     <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/jq-3.3.1/dt-1.10.22/datatables.min.js"></script>
-    
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
     <link rel="stylesheet" href="../css/style.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -56,16 +61,14 @@
         <div class="col container-fluid content">
             <div class="d-flex justify-content-center align-items-center vh-100 mh-100">
                 <!-- <button class="btn btn-success">Transaksi Baru</button> -->
-                <div class="card" style="width: 32em; max-height: 25vh; overflow-y: scroll">
-                    <div class="list-group list-group-flush" id="cart">
-                        <div class="list-group-item d-flex align-items-center">
-                            <div class="col">Brokoli</div>
-                            <div class="col">10</div>
-                            <div class="col">Rp 10.000</div>
-                            <button style="background: none; border: none"><i
-                                    class="fas fa-trash text-danger"></i></button>
-                        </div>
+                <div class="card" style="width: 32em">
+                    <div class="card-title">Keranjang</div>
+                    <div class="list-group list-group-flush" style="max-height: 75vh; overflow-y: scroll" id="cart">
                         <?php 
+                            
+                            if(count($carts) == 0){
+                                echo "<center>Keranjang masih kosong</center>";
+                            }
                             foreach($carts as $cart){
                               echo '<div class="list-group-item d-flex align-items-center">
                                         <div class="col">'.$cart["nama"].'</div>
@@ -77,8 +80,16 @@
                             }
                         ?>
                     </div>
-                    <div class="card-body" style="margin-bottom: 24px">
-                        <button class="btn btn-success float-right" data-toggle="modal" data-target="#modal-item-list">Tambah Item</button>
+                    <div class="card-footer" style="margin-bottom: 24px">
+                        <div class="float-right">
+                            <?php
+                                if(count($carts) > 0){
+                                    echo '<button class="btn btn-danger" onclick="willDeleteCart()">Hapus Keranjang</button>';
+                                }
+                            ?>
+                            
+                            <button class="btn btn-success" data-toggle="modal" data-target="#modal-item-list">Tambah Item</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -88,7 +99,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Modal title</h5>
+                    <h5 class="modal-title">Tambah Item</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -118,10 +129,6 @@
                         ?>
                     </tbody>
                     </table>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                    <button type="button" class="btn btn-primary">Masukkan keranjang</button>
                 </div>
             </div>
         </div>
@@ -159,6 +166,23 @@
             }
             console.log(html)
             $('#cart').append(html)
+        }
+
+        function willDeleteCart(){
+            Swal.fire({
+            title: 'Hapus Keranjang',
+            text: "Anda yakin ingin menhapus keranjang?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Hapus',
+            cancelButtonText: 'Batal'
+            }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href="transaksi.php?delete"
+            }
+            })
         }
     </script>
 </body>
