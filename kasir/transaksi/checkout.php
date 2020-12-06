@@ -70,7 +70,7 @@
         <div class="col container-fluid content">
             <div class="d-flex justify-content-center align-items-center vh-100 mh-100">
                 <div class="card" style="width: 32em">
-                    <div class="h3">Pembayaran</div>
+                    <div class="h3 p-3">Pembayaran</div>
                     <div class="list-group list-group-flush" style="max-height: 75vh; overflow-y: scroll" id="cart">
                         <?php 
                             $total = 0;

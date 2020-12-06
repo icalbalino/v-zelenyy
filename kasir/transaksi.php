@@ -89,7 +89,7 @@
             <div class="d-flex justify-content-center align-items-center vh-100 mh-100">
                 <!-- <button class="btn btn-success">Transaksi Baru</button> -->
                 <div class="card" style="width: 32em">
-                    <div class="h3">Keranjang</div>
+                    <div class="h3 p-3">Keranjang</div>
                     <div class="list-group list-group-flush" style="max-height: 75vh; overflow-y: scroll" id="cart">
                         <?php 
                             $total = 0;
