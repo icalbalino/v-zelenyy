@@ -1,39 +1,6 @@
 <?php
         require_once('../functions.php');
-        $items = select_items();
-        $carts = [];
-        if(isset($_GET['delete'])){
-            $carts = $_SESSION['carts'];
-            if(isset($_GET['id'])){
-                $filteredCarts = [];
-                foreach ($carts as $cart) {
-                    if($cart['id'] != $_GET['id']){
-                        array_push($filteredCarts,$cart);
-                    }
-                }
-                $_SESSION['carts'] = $filteredCarts;
-            }else{
-                $_SESSION['carts'] = [];
-            }
-        }
-        if(isset($_SESSION['carts'])){
-            $carts = $_SESSION['carts'];
-        }
-        if(isset($_POST['addToCart'])){   
-            foreach (array_keys($_POST['checked']) as $id) {
-                $item = select_items($id)[0];
-                $data['id'] = $item['id'];
-                $data['nama'] = $item['nama'];
-                $data['harga'] = $item['harga'];
-                $data['qty'] = $_POST['qty'][$id];
-                array_push($carts, $data);
-                header("Location: transaksi.php");
-            }
-            
-            $_SESSION['carts'] = $carts;
-            
-        }
-        
+        $trxes = selectTrxes($_SESSION['user']['id']);
     ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -86,53 +53,36 @@
         </div>
 
         <div class="col container-fluid content">
-            <div class="d-flex justify-content-center align-items-center vh-100 mh-100">
-                <!-- <button class="btn btn-success">Transaksi Baru</button> -->
-                <div class="card" style="width: 32em">
-                    <div class="h3 p-3">Keranjang</div>
-                    <div class="list-group list-group-flush" style="max-height: 75vh; overflow-y: scroll" id="cart">
-                        <?php 
-                            $total = 0;
-                            if(count($carts) == 0){
-                                echo "<center>Keranjang masih kosong</center>";
-                            }
-                            foreach($carts as $cart){
-                              $subtotal = $cart['harga']*$cart['qty'];
-                              $total+=$subtotal;
-                              echo '<div class="list-group-item d-flex align-items-center">
-                                        <div class="col">'.$cart["nama"].'</div>
-                                        <div class="col">'.$cart["qty"].'</div>
-                                        <div class="col">'.$cart["harga"].'</div>
-                                        <a href="transaksi.php?delete&id='.$cart['id'].'" style="background: none; border: none"><i
-                                                class="fas fa-trash text-danger"></i></a>
-                                    </div>';
+            <div class="p-5">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Id Transaksi</th>
+                            <th>Tanggal</th>
+                            <th>Total</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                            foreach ($trxes as $trx) {
+                                echo '
+                                    <tr>
+                                        <td>'.$trx['id'].'</td>
+                                        <td>'.$trx['tanggal'].'</td>
+                                        <td>'.$trx['total'].'</td>
+                                        <td><a class="btn btn-link" href="history.php?detail='.$trx['id'].'">Detail</a></td>
+                                    </tr>
+                                ';
                             }
                         ?>
-                    </div>
-                    <div class="card-footer" style="margin-bottom: 24px">
-                        <p>Total: <?php echo $total;?></p>
-                        <div class="float-right">
-                            <?php
-                                if(count($carts) > 0){
-                                    echo '<button class="btn btn-danger" onclick="willDeleteCart()">Hapus Keranjang</button>';
-                                }
-                            ?>
-
-                            <button class="btn btn-success" data-toggle="modal" data-target="#modal-item-list">Tambah
-                                Item</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="position-absolute p-3" style="bottom: 0; right: 0">
-                    <?php
-                    if(count($carts)>0)
-                        echo '<a class="btn btn-primary" href="transaksi/checkout.php">Pembayaran</a>'
-                    ?>
-                </div>
+                    </tbody>
+                </table>
+                
             </div>
         </div>
     </div>
-    <form id="modal-item-list" class="modal" tabindex="-1" role="dialog" action="transaksi.php" method="POST">
+    <!-- <form id="modal-item-list" class="modal" tabindex="-1" role="dialog" action="transaksi.php" method="POST">
         <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -174,7 +124,7 @@
                 </div>
             </div>
         </div>
-    </form>
+    </form> -->
     <script>
         $(document).ready(function () {
             $('#item-table').DataTable({

@@ -20,14 +20,6 @@
                 if ($rs != null) {
                     $i = 0;
                     $hasil = $rs;
-                    // foreach ($rs as $val) {
-                    //     $hasil[$i] = $val;                    
-                    //     $hasil[$i]['id'] = $val['id'];
-                    //     $hasil[$i]['nama'] = $val['nama'];
-                    //     $hasil[$i]['stock'] = $val['IPK'];
-                    //     $hasil[$i]['harga'] = $val['Asal'];
-                    //     $i++;
-                    // }
                 }
             }
         } catch(Exception $e) {
@@ -76,6 +68,38 @@
             echo 'Error select_data : '.$e->getMessage();
         }
         return $hasil;    
+    }
+
+    function selectTrxes($kasir_id = ""){
+        global $con;
+
+        $hasil = array();
+        $sql = "SELECT * FROM item";
+        if($kasir_id!=""){
+            $sql = "SELECT trx.id, trx.kasir_id, trx.tanggal, sum(subtotal) as 'total' FROM trx join `detail_trx` where detail_trx.trx_id = trx.id and trx.kasir_id = :kasir_id group by trx.id";
+        }else{
+            $sql = "SELECT trx.id, trx.kasir_id, trx.tanggal, sum(subtotal) as 'total' FROM trx join `detail_trx` where detail_trx.trx_id = trx.id group by trx.id";
+        }
+        try {
+            $stmt = $con->prepare($sql);
+            if ($kasir_id != "") $stmt->bindValue(':kasir_id', $kasir_id, PDO::PARAM_STR);
+
+            if ($stmt->execute()) {
+                $stmt->setFetchMode(PDO::FETCH_ASSOC);
+                $rs = $stmt->fetchAll();
+                
+                if ($rs != null) {
+                    $i = 0;
+                    $hasil = $rs;
+                }
+            }else{
+                echo "err";
+            }
+        } catch(Exception $e) {
+            echo 'Error select_data : '.$e->getMessage();
+        }
+
+        return $hasil;
     }
 
 function insertTrx(){
