@@ -39,7 +39,7 @@
         </div>
 
         <div class="col container-fluid content">
-            <div class="alert alert-primary" role="alert">
+            <div class="alert alert-primary mt-3" role="alert">
                 Halo, <?php echo $_SESSION['user']['nama']?>
             </div>
             <p>Ringkasan hari ini</p>
