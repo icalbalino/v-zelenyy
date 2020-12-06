@@ -1,3 +1,6 @@
+<?php
+    require_once("../functions.php");
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -37,7 +40,7 @@
 
         <div class="col container-fluid content">
             <div class="alert alert-primary" role="alert">
-                Halo, kasir1
+                Halo, <?php echo $_SESSION['user']['nama']?>
             </div>
             <p>Ringkasan hari ini</p>
             <div class="card border-0">

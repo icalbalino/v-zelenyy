@@ -1,36 +1,19 @@
 <?php
-        require_once('../functions.php');
+        require_once('../../functions.php');
         $items = select_items();
         $carts = [];
-        if(isset($_GET['delete'])){
-            $carts = $_SESSION['carts'];
-            if(isset($_GET['id'])){
-                $filteredCarts = [];
-                foreach ($carts as $cart) {
-                    if($cart['id'] != $_GET['id']){
-                        array_push($filteredCarts,$cart);
-                    }
-                }
-                $_SESSION['carts'] = $filteredCarts;
-            }else{
-                $_SESSION['carts'] = [];
-            }
-        }
         if(isset($_SESSION['carts'])){
             $carts = $_SESSION['carts'];
-        }
-        if(isset($_POST['addToCart'])){   
-            foreach (array_keys($_POST['checked']) as $id) {
-                $item = select_items($id)[0];
-                $data['id'] = $item['id'];
-                $data['nama'] = $item['nama'];
-                $data['harga'] = $item['harga'];
-                $data['qty'] = $_POST['qty'][$id];
-                array_push($carts, $data);
-                header("Location: transaksi.php");
+            if(count($carts) == 0){
+                header('Location: ../transaksi.php');
             }
-            
-            $_SESSION['carts'] = $carts;
+        }else{
+            header('Location: ../transaksi.php');
+        }
+        if(isset($_POST['confirm'])){
+            if(insertTrx()){
+                header('Location: checkout.php');
+            }
             
         }
         
@@ -60,11 +43,10 @@
     <!-- <link type="text/css" href="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.12/css/dataTables.checkboxes.css" -->
         <!-- rel="stylesheet" /> -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css">
-    <!-- <link rel="stylesheet" href="https://cdn.datatables.net/select/1.3.1/css/select.dataTables.min.css"> -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/select/1.3.1/css/select.dataTables.min.css">
     <script type="text/javascript"
         src="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.12/js/dataTables.checkboxes.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.6.5/css/buttons.bootstrap4.min.css">
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../../css/style.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>V-Zelenny</title>
@@ -87,9 +69,8 @@
 
         <div class="col container-fluid content">
             <div class="d-flex justify-content-center align-items-center vh-100 mh-100">
-                <!-- <button class="btn btn-success">Transaksi Baru</button> -->
                 <div class="card" style="width: 32em">
-                    <div class="h3">Keranjang</div>
+                    <div class="h3">Pembayaran</div>
                     <div class="list-group list-group-flush" style="max-height: 75vh; overflow-y: scroll" id="cart">
                         <?php 
                             $total = 0;
@@ -103,29 +84,34 @@
                                         <div class="col">'.$cart["nama"].'</div>
                                         <div class="col">'.$cart["qty"].'</div>
                                         <div class="col">'.$cart["harga"].'</div>
-                                        <a href="transaksi.php?delete&id='.$cart['id'].'" style="background: none; border: none"><i
-                                                class="fas fa-trash text-danger"></i></a>
                                     </div>';
                             }
                         ?>
                     </div>
-                    <div class="card-footer" style="margin-bottom: 24px">
-                        <p>Total: <?php echo $total;?></p>
-                        <div class="float-right">
-                            <?php
-                                if(count($carts) > 0){
-                                    echo '<button class="btn btn-danger" onclick="willDeleteCart()">Hapus Keranjang</button>';
-                                }
-                            ?>
-
-                            <button class="btn btn-success" data-toggle="modal" data-target="#modal-item-list">Tambah
-                                Item</button>
+                    <form class="card-footer" style="margin-bottom: 24px" action="checkout.php" method="POST">
+                        <!-- <p>Total: <?php echo $total;?></p> -->
+                        <div class="input-group mb-3 row">
+                            <label for="inputTotal" class="col-sm-5 col-form-label col-form-label-sm">Total</label>
+                            <?php echo'<input type="number" class="form-control" id="inputTotal" value="'.$total.'" placeholder="ex: 10000" disabled>'?>
+                            
                         </div>
-                    </div>
+                        <div class="input-group mb-3 row">
+                            <label for="inputUangDiterima" class="col-sm-5 col-form-label col-form-label-sm">Uang Diterima</label>
+                            <input type="number" class="form-control" id="inputUangDiterima" placeholder="ex: 10000" required>
+                        </div>
+                        <div class="input-group mb-3 row">
+                            <label for="inputUangDiterima" class="col-sm-5 col-form-label col-form-label-sm">Kembalian</label>
+                            <input type="number" class="form-control" id="inputUangDiterima" placeholder="0" disabled>
+                        </div>
+                        <div class="float-right">
+                            <a href="../transaksi.php" class="btn btn-link">Batal</a>
+                            <input type="Submit" class="btn btn-primary float-right" value="Konfirmasi Pembayaran" name="confirm">
+                        </div>
+                    </form>
                 </div>
-                <div class="position-absolute p-3" style="bottom: 0; right: 0">
-                    <a class="btn btn-primary" href="transaksi/checkout.php">Pembayaran</a>
-                </div>
+            </div>
+            <div>
+                <a href="transaksi/checkout.php"></a>
             </div>
         </div>
     </div>
@@ -157,7 +143,7 @@
                                         <td><input type="checkbox" name="checked['.$item['id'].']">&nbsp;'.$item['id'].'</td>
                                         <td>'.$item["nama"].'</td>
                                         <td>'.$item['harga'].'</td>
-                                        <td><input class="form-control" type="number" name="qty['.$item['id'].']" value=0 style="width: 128px"></td>
+                                        <td><input type="number" name="qty['.$item['id'].']" value=0></td>
                                     </tr>
                                 ';
                                 $i++;
@@ -178,6 +164,9 @@
                 "bInfo": false,
                 "lengthChange": false,
             });
+            $('#inputUangDiterima'){
+
+            }
         });
 
         var carts = [{
