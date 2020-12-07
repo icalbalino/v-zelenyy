@@ -118,8 +118,7 @@
                                 }
                             ?>
 
-                            <button class="btn btn-success" data-toggle="modal" data-target="#modal-item-list">Tambah
-                                Item</button>
+                            <button class="btn btn-primary" data-toggle="modal" data-target="#modal-item-list">Tambah Item</button>
                         </div>
                     </div>
                 </div>

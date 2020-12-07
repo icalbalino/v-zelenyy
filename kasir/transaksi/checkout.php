@@ -58,11 +58,11 @@
         <div class="vh-100 side-menu-container d-flex flex-column justify-content space-between" id='side-menu'>
             <div class="menu-title">Logo disini</div>
             <div class="list-group list-group-flush">
-                <a href="#" class="list-group-item list-group-item-action bg-light"><i class="fas fa-home col-2"></i>
+                <a href="../dashboard.php" class="list-group-item list-group-item-action bg-light"><i class="fas fa-home col-2"></i>
                     <span class="col">Dashboard</span></a>
-                <a href="#" class="list-group-item list-group-item-action bg-light"><i
+                <a href="../transaksi.php" class="list-group-item list-group-item-action bg-light"><i
                         class="fas fa-money-check col-2"></i> <span class="col">Transaksi</span></a>
-                <a href="#" class="list-group-item list-group-item-action bg-light"><i class="fas fa-history col-2"></i>
+                <a href="../history.php" class="list-group-item list-group-item-action bg-light"><i class="fas fa-history col-2"></i>
                     <span class="col">History</span></a>
             </div>
         </div>
@@ -100,12 +100,12 @@
                             <input type="number" class="form-control" id="inputUangDiterima" placeholder="ex: 10000" required>
                         </div>
                         <div class="input-group mb-3 row">
-                            <label for="inputUangDiterima" class="col-sm-5 col-form-label col-form-label-sm">Kembalian</label>
-                            <input type="number" class="form-control" id="inputUangDiterima" placeholder="0" disabled>
+                            <label for="inputKembalian" class="col-sm-5 col-form-label col-form-label-sm">Kembalian</label>
+                            <input type="number" class="form-control" id="inputKembalian" placeholder="0" disabled>
                         </div>
                         <div class="float-right">
                             <a href="../transaksi.php" class="btn btn-link">Batal</a>
-                            <input type="Submit" class="btn btn-primary float-right" value="Konfirmasi Pembayaran" name="confirm">
+                            <input id="submitPayment" type="Submit" class="btn btn-primary float-right" value="Konfirmasi Pembayaran" name="confirm" disabled>
                         </div>
                     </form>
                 </div>
@@ -164,10 +164,17 @@
                 "bInfo": false,
                 "lengthChange": false,
             });
-            $('#inputUangDiterima'){
-
-            }
         });
+            $('#inputUangDiterima').keyup(function(){
+                console.log('tes',$('#inputTotal').val())
+                if(parseInt($('#inputUangDiterima').val())>=parseInt($('#inputTotal').val())){
+                    $('#inputKembalian').val(parseInt($('#inputUangDiterima').val())-parseInt($('#inputTotal').val()))
+                    $('#submitPayment').prop('disabled', false)
+                }else{
+                    $('#inputKembalian').val(0)
+                    $('#submitPayment').prop('disabled', true)
+                }
+            })
 
         var carts = [{
             "name": "brokoli",

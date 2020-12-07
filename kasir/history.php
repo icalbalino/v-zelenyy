@@ -1,6 +1,9 @@
 <?php
         require_once('../functions.php');
         $trxes = selectTrxes($_SESSION['user']['id']);
+        if(isset($_GET['detail'])){
+            $detailTrxes = selectDetailTrxes($_GET['detail']);
+        }
     ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -21,15 +24,15 @@
 
     <link rel="stylesheet" type="text/css"
         href="https://cdn.datatables.net/v/bs4/jq-3.3.1/dt-1.10.22/datatables.min.css" />
-    <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/jq-3.3.1/dt-1.10.22/datatables.min.js">
+    <!-- <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/jq-3.3.1/dt-1.10.22/datatables.min.js"> -->
     </script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <!-- <link type="text/css" href="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.12/css/dataTables.checkboxes.css" -->
         <!-- rel="stylesheet" /> -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css">
     <!-- <link rel="stylesheet" href="https://cdn.datatables.net/select/1.3.1/css/select.dataTables.min.css"> -->
-    <script type="text/javascript"
-        src="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.12/js/dataTables.checkboxes.min.js"></script>
+    <!-- <script type="text/javascript"
+        src="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.12/js/dataTables.checkboxes.min.js"></script> -->
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.6.5/css/buttons.bootstrap4.min.css">
     <link rel="stylesheet" href="../css/style.css">
     <meta charset="UTF-8">
@@ -82,6 +85,51 @@
             </div>
         </div>
     </div>
+
+    <form id="modal-detail" class="modal" tabindex="-1" role="dialog" action="transaksi.php" method="POST">
+        <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Detail Transaksi</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body vh-50 mh-50">
+                    <table class="table" id="item-table" data-page-length='5'>
+                        <thead>
+                            <th>Id</th>
+                            <th>Nama</th>
+                            <th>Harga</th>
+                            <th>Kuantitas</th>
+                            <th>Subtotal</th>
+                        </thead>
+                        <tbody>
+                            <?php
+                            $i=0;
+                            foreach ($detailTrxes as $item) {
+                                // <td><input class="btn btn-link" type="submit" name="addToCart" value="'.$item['nama'].'"></td>
+                                echo '
+                                    <tr>
+                                        <td>'.$item['id'].'</td>
+                                        <td>'.$item["nama"].'</td>
+                                        <td>'.$item['harga'].'</td>
+                                        <td>'.$item['qty'].'</td>
+                                        <td>'.$item['subtotal'].'</td>
+                                    </tr>
+                                ';
+                                $i++;
+                            }
+                        ?>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <input class="btn btn-success" type="Submit" value="Tambahkan" name="addToCart">
+                </div>
+            </div>
+        </div>
+    </form>
     <!-- <form id="modal-item-list" class="modal" tabindex="-1" role="dialog" action="transaksi.php" method="POST">
         <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
             <div class="modal-content">
@@ -126,12 +174,22 @@
         </div>
     </form> -->
     <script>
+        
         $(document).ready(function () {
-            $('#item-table').DataTable({
-                "bInfo": false,
-                "lengthChange": false,
-            });
+            // $('#item-table').DataTable({
+            //     "bInfo": false,
+            //     "lengthChange": false,
+            // });
+            var params = new URLSearchParams(window.location.search)
+            if(params.has('detail')){
+                console.log('open modal')
+                $('#modal-detail').modal('show');
+            }
         });
+
+        // $(window).load(function(){
+            
+        // })
 
         var carts = [{
             "name": "brokoli",

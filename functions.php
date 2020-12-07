@@ -90,6 +90,39 @@
                 
                 if ($rs != null) {
                     $i = 0;
+                    // $hasil = $rs;
+                    foreach ($rs as $item) {
+                        $item['detail_trx'] = selectDetailTrxes($item['id']);
+                        $hasil[$i] = $item;
+                        $i++;
+                    }
+                }
+            }else{
+                echo "err";
+            }
+        } catch(Exception $e) {
+            echo 'Error select_data : '.$e->getMessage();
+        }
+
+        return $hasil;
+    }
+
+
+    function selectDetailTrxes($trxId = ""){
+        global $con;
+
+        $hasil = array();
+        $sql = "SELECT * FROM detail_trx join item where detail_trx.item_id = item.id and detail_trx.trx_id = :trx_id";
+        try {
+            $stmt = $con->prepare($sql);
+            $stmt->bindValue(':trx_id', $trxId, PDO::PARAM_STR);
+
+            if ($stmt->execute()) {
+                $stmt->setFetchMode(PDO::FETCH_ASSOC);
+                $rs = $stmt->fetchAll();
+                
+                if ($rs != null) {
+                    $i = 0;
                     $hasil = $rs;
                 }
             }else{
