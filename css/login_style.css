@@ -1,3 +1,13 @@
 .kontainer {
-    margin: 20px;
+    margin: 20px auto;
+}
+
+.kartu-utama{
+    border-radius: 20px 0px 20px 0px;
+    box-shadow: 0px 6px 10px 0px #757575;
+}
+
+.kartu2{
+    background-color: #85C872;
+    border-radius: 0px 0px 20px 0px;
 }
