@@ -27,26 +27,24 @@
     
     <div class="d-flex" id="wrapper">
         <div class="vh-100 side-menu-container d-flex flex-column justify-content space-between" id='side-menu'>
-            <div class="menu-title">
-                <img src="../img/zelenyy1.jpg" class="rounded-circle" alt="logo"></div>
+            <div class="menu-title">Logo disini</div>
             <div class="list-group list-group-flush">
-                <a href="dashboard.php" class="list-group-item list-group-item-action list-group-item-success"><i class="fas fa-home col-2"></i>
+                <a href="dashboard.php" class="list-group-item list-group-item-action bg-light"><i class="fas fa-home col-2"></i>
                     <span class="col">Dashboard</span></a>
                 <a href="transaksi.php" class="list-group-item list-group-item-action bg-light"><i
                         class="fas fa-money-check col-2"></i> <span class="col">Transaksi</span></a>
                 <a href="history.php" class="list-group-item list-group-item-action bg-light"><i class="fas fa-history col-2"></i>
                     <span class="col">History</span></a>
-                    <a class="btn btn-success text-light" href="../logout.php">Logout</a>
             </div>
         </div>
 
         <div class="col container-fluid content">
-            <div class="alert alert-success mt-3" role="alert">
+            <div class="alert alert-primary mt-3" role="alert">
                 Halo, <?php echo $_SESSION['user']['nama']?>
             </div>
             <p>Ringkasan hari ini</p>
             <div class="card border-0">
-                <div class="card-body shadow-sm bg-light">
+                <div class="card-body shadow-sm">
                     <div class="row">
                         <div class="col d-flex flex-column justify-content-center align-items-center">
                             <div class="h4">
