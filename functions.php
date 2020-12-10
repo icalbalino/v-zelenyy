@@ -78,7 +78,7 @@
         if($kasir_id!=""){
             $sql = "SELECT trx.id, trx.kasir_id, user.nama, trx.tanggal, sum(subtotal) as 'total' FROM trx join `detail_trx` join `user` where user.id = trx.kasir_id and detail_trx.trx_id = trx.id and trx.kasir_id = :kasir_id group by trx.id";
         }else{
-            $sql = "SELECT trx.id, trx.kasir_id,, user.nama, trx.tanggal, sum(subtotal) as 'total' FROM trx join `detail_trx` join `user` where user.id = trx.kasir_id and detail_trx.trx_id = trx.id group by trx.id";
+            $sql = "SELECT trx.id, trx.kasir_id, user.nama, trx.tanggal, sum(subtotal) as 'total' FROM trx join `detail_trx` join `user` where user.id = trx.kasir_id and detail_trx.trx_id = trx.id group by trx.id";
         }
         try {
             $stmt = $con->prepare($sql);
