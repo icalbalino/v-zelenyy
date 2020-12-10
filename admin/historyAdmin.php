@@ -57,7 +57,7 @@
         </div>
 
         <div class="col container-fluid content">
-            <div class="p-5">
+            <div class="p-5" style="max-height: 80vh; overflow-y: scroll">
                 <table class="table table-striped">
                     <thead>
                         <tr>
