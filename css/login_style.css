@@ -1,0 +1,56 @@
+.kontainer {
+    margin: 50px auto;
+}
+
+.kartu-utama{
+    border-radius: 50px 0px 50px 0px;
+    box-shadow: -10px 10px 25px 5px #CCE3DE;
+}
+
+img{
+    display: block;
+    margin: 50px auto;
+    width: 250px;
+    height: 250px;
+}
+
+.kartu{
+    background-color: #85C872;
+    border-radius: 0px 0px 50px 0px;
+    display: block;
+}
+
+.tombol{
+    background-color: #285A84;
+    color: white;
+    border-radius: 25px;
+    width: 50%;
+    margin: auto;
+    display: block;
+}
+
+.tombol:hover{
+    color: #85C872;
+    font-weight: bolder;
+    box-shadow: 0 0 15px 1px #CCE3DE;
+}
+
+.input1 {
+    width: 50%;
+    border-radius: 25px;
+    margin: auto;
+    display: block;
+}
+
+.colcard{
+    height: 100%;
+}
+
+.pinggir{
+    height: 20%;
+}
+
+.tengah{
+    padding: 25px;
+    height: 60%;
+}

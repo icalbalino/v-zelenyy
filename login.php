@@ -24,20 +24,31 @@
     <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/jq-3.3.1/dt-1.10.22/datatables.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="./css/login_style.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>V-Zelenny</title>
 </head>
 <body>
-    <div class="container-fluid">
-        <div class="card">
-            <div class="card-body">
-                <form action="login.php" method="POST">
-                    <input class="" placeholder="username" name="username"><br>
-                    <input class="" placeholder="password" name="password"><br>
-                    <input class="btn btn-primary" type="Submit" value="login" name="login">
-                </form>
+    <div class="container kontainer">
+        <div class="row kartu-utama">
+            <div class="col-6">
+                <div class="card-body">
+                    <img src="./img/zelenyy1.jpg" alt="logo">
+                </div>
+            </div>
+            <div class="col-6 kartu">
+                <div class="card-body col colcard">
+                    <div class="col pinggir"></div>
+                    <div class="col tengah">
+                        <form action="login.php" method="POST" >
+                            <input type="text"  class="form-control input1" placeholder="username" name="username"><br>
+                            <input type="password" class="form-control input1" placeholder="password" name="password"><br>
+                            <input class="btn tombol" type="Submit" value="Login" name="login">
+                        </form>
+                    </div>
+                    <div class="col pinggir"></div>
+                </div>
             </div>
         </div>
     </div>    
