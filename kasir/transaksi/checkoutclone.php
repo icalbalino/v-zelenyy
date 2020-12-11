@@ -1,9 +1,22 @@
 <?php
-        require_once('../functions.php');
-        $trxes = selectTrxes($_SESSION['user']['id']);
-        if(isset($_GET['detail'])){
-            $detailTrxes = selectDetailTrxes($_GET['detail']);
+        require_once('../../functions.php');
+        $items = select_items();
+        $carts = [];
+        if(isset($_SESSION['carts'])){
+            $carts = $_SESSION['carts'];
+            if(count($carts) == 0){
+                header('Location: ../transaksi.php');
+            }
+        }else{
+            header('Location: ../transaksi.php');
         }
+        if(isset($_POST['confirm'])){
+            if(insertTrx()){
+                header('Location: checkout.php');
+            }
+            
+        }
+        
     ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -24,18 +37,16 @@
 
     <link rel="stylesheet" type="text/css"
         href="https://cdn.datatables.net/v/bs4/jq-3.3.1/dt-1.10.22/datatables.min.css" />
-    <!-- <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/jq-3.3.1/dt-1.10.22/datatables.min.js"> -->
+    <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/jq-3.3.1/dt-1.10.22/datatables.min.js">
     </script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <!-- <link type="text/css" href="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.12/css/dataTables.checkboxes.css" -->
         <!-- rel="stylesheet" /> -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css">
-    <!-- <link rel="stylesheet" href="https://cdn.datatables.net/select/1.3.1/css/select.dataTables.min.css"> -->
-    <!-- <script type="text/javascript"
-        src="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.12/js/dataTables.checkboxes.min.js"></script> -->
-    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.6.5/css/buttons.bootstrap4.min.css">
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/styleclone.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/select/1.3.1/css/select.dataTables.min.css">
+    <script type="text/javascript"
+        src="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.12/js/dataTables.checkboxes.min.js"></script>
+    <link rel="stylesheet" href="../../css/style.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>V-Zelenny</title>
@@ -45,90 +56,66 @@
 <body>
     <div class="d-flex vh-100">
         <div class="vh-100 side-menu-container d-flex flex-column justify-content space-between" id='side-menu'>
-            <div class="menu-title"><img src="../img/zelenyy3.jpg" alt=""></div>
+            <div class="menu-title">Logo disini</div>
             <div class="list-group list-group-flush">
-                <a href="dashboard.php" class="list-group-item list-group-item-action"><i class="fas fa-home col-2"></i> <span class="col">Dashboard</span></a>
-                <a href="transaksi.php" class="list-group-item list-group-item-action"><i class="fas fa-money-check col-2"></i> <span class="col">Transaksi</span></a>
-                <a href="history.php" class="list-group-item list-group-item-action"><i class="fas fa-history col-2"></i> <span class="col">History</span></a>
-            </div>    
+                <a href="../dashboard.php" class="list-group-item list-group-item-action bg-light"><i class="fas fa-home col-2"></i>
+                    <span class="col">Dashboard</span></a>
+                <a href="../transaksi.php" class="list-group-item list-group-item-action bg-light"><i
+                        class="fas fa-money-check col-2"></i> <span class="col">Transaksi</span></a>
+                <a href="../history.php" class="list-group-item list-group-item-action bg-light"><i class="fas fa-history col-2"></i>
+                    <span class="col">History</span></a>
+            </div>
         </div>
 
         <div class="col container-fluid content">
-            <div class="p-5">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>Id Transaksi</th>
-                            <th>Tanggal</th>
-                            <th>Total</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                            foreach ($trxes as $trx) {
-                                echo '
-                                    <tr>
-                                        <td>'.$trx['id'].'</td>
-                                        <td>'.$trx['tanggal'].'</td>
-                                        <td>'.$trx['total'].'</td>
-                                        <td><a class="btn btn-link" href="history.php?detail='.$trx['id'].'">Detail</a></td>
-                                    </tr>
-                                ';
+            <div class="d-flex justify-content-center align-items-center vh-100 mh-100">
+                <div class="card" style="width: 32em">
+                    <div class="h3 p-3">Pembayaran</div>
+                    <div class="list-group list-group-flush" style="max-height: 75vh; overflow-y: scroll" id="cart">
+                        <?php 
+                            $total = 0;
+                            if(count($carts) == 0){
+                                echo "<center>Keranjang masih kosong</center>";
+                            }
+                            foreach($carts as $cart){
+                              $subtotal = $cart['harga']*$cart['qty'];
+                              $total+=$subtotal;
+                              echo '<div class="list-group-item d-flex align-items-center">
+                                        <div class="col">'.$cart["nama"].'</div>
+                                        <div class="col">'.$cart["qty"].'</div>
+                                        <div class="col">'.$cart["harga"].'</div>
+                                    </div>';
                             }
                         ?>
-                    </tbody>
-                </table>
-                
+                    </div>
+                    <form class="card-footer" style="margin-bottom: 24px" action="checkout.php" method="POST">
+                        <!-- <p>Total: <?php echo $total;?></p> -->
+                        <div class="input-group mb-3 row">
+                            <label for="inputTotal" class="col-sm-5 col-form-label col-form-label-sm">Total</label>
+                            <?php echo'<input type="number" class="form-control" id="inputTotal" value="'.$total.'" placeholder="ex: 10000" disabled>'?>
+                            
+                        </div>
+                        <div class="input-group mb-3 row">
+                            <label for="inputUangDiterima" class="col-sm-5 col-form-label col-form-label-sm">Uang Diterima</label>
+                            <input type="number" class="form-control" id="inputUangDiterima" placeholder="ex: 10000" required>
+                        </div>
+                        <div class="input-group mb-3 row">
+                            <label for="inputKembalian" class="col-sm-5 col-form-label col-form-label-sm">Kembalian</label>
+                            <input type="number" class="form-control" id="inputKembalian" placeholder="0" disabled>
+                        </div>
+                        <div class="float-right">
+                            <a href="../transaksi.php" class="btn btn-link">Batal</a>
+                            <input id="submitPayment" type="Submit" class="btn btn-primary float-right" value="Konfirmasi Pembayaran" name="confirm" disabled>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div>
+                <a href="transaksi/checkout.php"></a>
             </div>
         </div>
     </div>
-
-    <form id="modal-detail" class="modal" tabindex="-1" role="dialog" action="transaksi.php" method="POST">
-        <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Detail Transaksi</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body vh-50 mh-50">
-                    <table class="table" id="item-table" data-page-length='5'>
-                        <thead>
-                            <th>Id</th>
-                            <th>Nama</th>
-                            <th>Harga</th>
-                            <th>Kuantitas</th>
-                            <th>Subtotal</th>
-                        </thead>
-                        <tbody>
-                            <?php
-                            $i=0;
-                            foreach ($detailTrxes as $item) {
-                                // <td><input class="btn btn-link" type="submit" name="addToCart" value="'.$item['nama'].'"></td>
-                                echo '
-                                    <tr>
-                                        <td>'.$item['id'].'</td>
-                                        <td>'.$item["nama"].'</td>
-                                        <td>'.$item['harga'].'</td>
-                                        <td>'.$item['qty'].'</td>
-                                        <td>'.$item['subtotal'].'</td>
-                                    </tr>
-                                ';
-                                $i++;
-                            }
-                        ?>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="modal-footer">
-                    <input class="btn btn-success" type="Submit" value="Tambahkan" name="addToCart">
-                </div>
-            </div>
-        </div>
-    </form>
-    <!-- <form id="modal-item-list" class="modal" tabindex="-1" role="dialog" action="transaksi.php" method="POST">
+    <form id="modal-item-list" class="modal" tabindex="-1" role="dialog" action="transaksi.php" method="POST">
         <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -156,7 +143,7 @@
                                         <td><input type="checkbox" name="checked['.$item['id'].']">&nbsp;'.$item['id'].'</td>
                                         <td>'.$item["nama"].'</td>
                                         <td>'.$item['harga'].'</td>
-                                        <td><input class="form-control" type="number" name="qty['.$item['id'].']" value=0 style="width: 128px"></td>
+                                        <td><input type="number" name="qty['.$item['id'].']" value=0></td>
                                     </tr>
                                 ';
                                 $i++;
@@ -170,24 +157,24 @@
                 </div>
             </div>
         </div>
-    </form> -->
+    </form>
     <script>
-        
         $(document).ready(function () {
-            // $('#item-table').DataTable({
-            //     "bInfo": false,
-            //     "lengthChange": false,
-            // });
-            var params = new URLSearchParams(window.location.search)
-            if(params.has('detail')){
-                console.log('open modal')
-                $('#modal-detail').modal('show');
-            }
+            $('#item-table').DataTable({
+                "bInfo": false,
+                "lengthChange": false,
+            });
         });
-
-        // $(window).load(function(){
-            
-        // })
+            $('#inputUangDiterima').keyup(function(){
+                console.log('tes',$('#inputTotal').val())
+                if(parseInt($('#inputUangDiterima').val())>=parseInt($('#inputTotal').val())){
+                    $('#inputKembalian').val(parseInt($('#inputUangDiterima').val())-parseInt($('#inputTotal').val()))
+                    $('#submitPayment').prop('disabled', false)
+                }else{
+                    $('#inputKembalian').val(0)
+                    $('#submitPayment').prop('disabled', true)
+                }
+            })
 
         var carts = [{
             "name": "brokoli",

@@ -65,6 +65,7 @@
         src="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.12/js/dataTables.checkboxes.min.js"></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.6.5/css/buttons.bootstrap4.min.css">
     <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/styleclone.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>V-Zelenny</title>
@@ -74,21 +75,18 @@
 <body>
     <div class="d-flex vh-100">
         <div class="vh-100 side-menu-container d-flex flex-column justify-content space-between" id='side-menu'>
-            <div class="menu-title">Logo disini</div>
+            <div class="menu-title"><img src="../img/zelenyy3.jpg" alt=""></div>
             <div class="list-group list-group-flush">
-                <a href="dashboard.php" class="list-group-item list-group-item-action bg-light"><i class="fas fa-home col-2"></i>
-                    <span class="col">Dashboard</span></a>
-                <a href="transaksi.php" class="list-group-item list-group-item-action bg-light"><i
-                        class="fas fa-money-check col-2"></i> <span class="col">Transaksi</span></a>
-                <a href="history.php" class="list-group-item list-group-item-action bg-light"><i class="fas fa-history col-2"></i>
-                    <span class="col">History</span></a>
-            </div>
+                <a href="dashboard.php" class="list-group-item list-group-item-action"><i class="fas fa-home col-2"></i> <span class="col">Dashboard</span></a>
+                <a href="transaksi.php" class="list-group-item list-group-item-action"><i class="fas fa-money-check col-2"></i> <span class="col">Transaksi</span></a>
+                <a href="history.php" class="list-group-item list-group-item-action"><i class="fas fa-history col-2"></i> <span class="col">History</span></a>
+            </div>  
         </div>
 
         <div class="col container-fluid content">
             <div class="d-flex justify-content-center align-items-center vh-100 mh-100">
                 <!-- <button class="btn btn-success">Transaksi Baru</button> -->
-                <div class="card" style="width: 32em">
+                <div class="card border-0 card-shadow" style="width: 32em">
                     <div class="h3 p-3">Keranjang</div>
                     <div class="list-group list-group-flush" style="max-height: 75vh; overflow-y: scroll" id="cart">
                         <?php 
@@ -109,7 +107,7 @@
                             }
                         ?>
                     </div>
-                    <div class="card-footer" style="margin-bottom: 24px">
+                    <div class="card-footer" style="margin-bottom: 20px">
                         <p>Total: <?php echo $total;?></p>
                         <div class="float-right">
                             <?php
@@ -121,13 +119,15 @@
                             <button class="btn btn-primary" data-toggle="modal" data-target="#modal-item-list">Tambah Item</button>
                         </div>
                     </div>
+
+                    <div class="p-4" style="text-align:right;">
+                        <?php
+                        if(count($carts)>0)
+                            echo '<a class="btn btn-primary" href="transaksi/checkout.php">Pembayaran</a>'
+                        ?>
+                    </div>
                 </div>
-                <div class="position-absolute p-3" style="bottom: 0; right: 0">
-                    <?php
-                    if(count($carts)>0)
-                        echo '<a class="btn btn-primary" href="transaksi/checkout.php">Pembayaran</a>'
-                    ?>
-                </div>
+                
             </div>
         </div>
     </div>
