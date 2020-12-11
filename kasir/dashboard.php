@@ -30,17 +30,21 @@
         <div class="vh-100 side-menu-container d-flex flex-column justify-content space-between" id='side-menu'>
             <div class="menu-title"><img src="../img/zelenyy3.jpg" alt=""></div>
             <div class="list-group list-group-flush">
-                <a href="dashboard.php" class="list-group-item list-group-item-action"><i class="fas fa-home col-2"></i> <span class="col">Dashboard</span></a>
-                <a href="transaksi.php" class="list-group-item list-group-item-action"><i class="fas fa-money-check col-2"></i> <span class="col">Transaksi</span></a>
-                <a href="history.php" class="list-group-item list-group-item-action"><i class="fas fa-history col-2"></i> <span class="col">History</span></a>
+                 <a href="dashboard.php" class="list-group-item list-group-item-action list-group-item-success"><i class="fas fa-home col-2"></i>
+                    <span class="col">Dashboard</span></a>
+                <a href="transaksi.php" class="list-group-item list-group-item-action bg-light"><i
+                        class="fas fa-money-check col-2"></i> <span class="col">Transaksi</span></a>
+                <a href="history.php" class="list-group-item list-group-item-action bg-light"><i class="fas fa-history col-2"></i>
+                    <span class="col">History</span></a>
+                <a class="btn btn-success text-light" href="../logout.php">Logout</a>
             </div>    
-        </div>
+         </div>
 
         <div class="col container-fluid content">
-            <div class=" h3 alert alert-primary mt-3" role="alert"> Halo, <?php echo $_SESSION['user']['nama']?> </div>
+            <div class=" h3 alert alert-success mt-3" role="alert"> Halo, <?php echo $_SESSION['user']['nama']?> </div>
             <h4>Ringkasan hari ini</h4>
             
-            <div class="card border-0">
+            <div class="card border-0 bg-light">
                 <div class="card-body card-shadow">
                     <div class="row padd justify-content space-between">
                         <div class="col-sm-3 padd card-shadow border-rad d-flex flex-column align-items-center">
@@ -71,4 +75,4 @@
     </script>
 </body>
 
-</html>
+</html> 

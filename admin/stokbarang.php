@@ -41,15 +41,15 @@
 <body>
 	<div class="d-flex vh-100">
 		<div class="vh-100 side-menu-container d-flex flex-column justify-content space-between" id='side-menu'>
-            <div class="menu-title">Logo disini</div>
+            <div class="menu-title"><img src="../img/zelenyy3.jpg" alt=""></div>
             <div class="list-group list-group-flush">
-                <a href="adminDash.php" class="list-group-item list-group-item-action bg-light"><i class="fas fa-home col-2"></i>
+                <a href="dashboard.php" class="list-group-item list-group-item-action bg-light"><i class="fas fa-home col-2"></i>
                     <span class="col">Dashboard</span></a>
-                <a href="stokbarang.php" class="list-group-item list-group-item-action bg-light"><i
-                        class="fas fa-cube col-2"></i> <span class="col">Stok Barang</span></a>
+                <a href="stokbarang.php" class="list-group-item list-group-item-action list-group-item-success"><i class="fas fa-cube col-2"></i> <span class="col">Stok Barang</span></a>
                 <a href="historyAdmin.php" class="list-group-item list-group-item-action bg-light"><i class="fas fa-history col-2"></i>
                     <span class="col">History</span></a>
                 <a href="kasir.php" class="list-group-item list-group-item-action bg-light"><i class="fas fa-calculator col-2"></i><span class="col">Kasir</span></a>
+                 <a class="btn btn-success text-light" href="../logout.php">Logout</a>
         </div>
     </div>
 

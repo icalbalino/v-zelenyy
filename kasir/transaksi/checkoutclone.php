@@ -1,6 +1,6 @@
 <?php
         require_once('../../functions.php');
-        $items = select_items();
+         $items = select_items();
         $carts = [];
         if(isset($_SESSION['carts'])){
             $carts = $_SESSION['carts'];
@@ -57,14 +57,14 @@
 <body>
     <div class="d-flex vh-100">
         <div class="vh-100 side-menu-container d-flex flex-column justify-content space-between" id='side-menu'>
-            <div class="menu-title">Logo disini</div>
+            <div class="menu-title"><img src="../../img/zelenyy3.jpg" alt=""></div>
             <div class="list-group list-group-flush">
-                <a href="../dashboardclone.php" class="list-group-item list-group-item-action bg-light"><i class="fas fa-home col-2"></i>
+               <a href="dashboard.php" class="list-group-item list-group-item-action bg-light"><i class="fas fa-home col-2"></i>
                     <span class="col">Dashboard</span></a>
-                <a href="../transaksiclone.php" class="list-group-item list-group-item-action bg-light"><i
-                        class="fas fa-money-check col-2"></i> <span class="col">Transaksi</span></a>
-                <a href="../historyclone.php" class="list-group-item list-group-item-action bg-light"><i class="fas fa-history col-2"></i>
+                <a href="transaksi.php" class="list-group-item list-group-item-action list-group-item-success"><i class="fas fa-money-check col-2"></i> <span class="col">Transaksi</span></a>
+                <a href="history.php" class="list-group-item list-group-item-action bg-light"><i class="fas fa-history col-2"></i>
                     <span class="col">History</span></a>
+                     <a class="btn btn-success text-light" href="../logout.php">Logout</a>
             </div>
         </div>
 
