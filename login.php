@@ -27,7 +27,7 @@
     <link rel="stylesheet" href="./css/login_style.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>V-Zelenny</title>
+    <title>V-Zelenyy</title>
 </head>
 <body>
     <div class="container kontainer">
