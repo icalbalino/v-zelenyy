@@ -5,14 +5,14 @@
         if(isset($_SESSION['carts'])){
             $carts = $_SESSION['carts'];
             if(count($carts) == 0){
-                header('Location: ../transaksi.php');
+                header('Location: ../transaksiclone.php');
             }
         }else{
-            header('Location: ../transaksi.php');
+            header('Location: ../transaksiclone.php');
         }
         if(isset($_POST['confirm'])){
             if(insertTrx()){
-                header('Location: checkout.php');
+                header('Location: checkoutclone.php');
             }
             
         }
@@ -47,6 +47,7 @@
     <script type="text/javascript"
         src="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.12/js/dataTables.checkboxes.min.js"></script>
     <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/styleclone.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>V-Zelenny</title>
@@ -58,11 +59,11 @@
         <div class="vh-100 side-menu-container d-flex flex-column justify-content space-between" id='side-menu'>
             <div class="menu-title">Logo disini</div>
             <div class="list-group list-group-flush">
-                <a href="../dashboard.php" class="list-group-item list-group-item-action bg-light"><i class="fas fa-home col-2"></i>
+                <a href="../dashboardclone.php" class="list-group-item list-group-item-action bg-light"><i class="fas fa-home col-2"></i>
                     <span class="col">Dashboard</span></a>
-                <a href="../transaksi.php" class="list-group-item list-group-item-action bg-light"><i
+                <a href="../transaksiclone.php" class="list-group-item list-group-item-action bg-light"><i
                         class="fas fa-money-check col-2"></i> <span class="col">Transaksi</span></a>
-                <a href="../history.php" class="list-group-item list-group-item-action bg-light"><i class="fas fa-history col-2"></i>
+                <a href="../historyclone.php" class="list-group-item list-group-item-action bg-light"><i class="fas fa-history col-2"></i>
                     <span class="col">History</span></a>
             </div>
         </div>
@@ -88,7 +89,7 @@
                             }
                         ?>
                     </div>
-                    <form class="card-footer" style="margin-bottom: 24px" action="checkout.php" method="POST">
+                    <form class="card-footer" style="margin-bottom: 24px" action="checkoutclone.php" method="POST">
                         <!-- <p>Total: <?php echo $total;?></p> -->
                         <div class="input-group mb-3 row">
                             <label for="inputTotal" class="col-sm-5 col-form-label col-form-label-sm">Total</label>
@@ -104,7 +105,7 @@
                             <input type="number" class="form-control" id="inputKembalian" placeholder="0" disabled>
                         </div>
                         <div class="float-right">
-                            <a href="../transaksi.php" class="btn btn-link">Batal</a>
+                            <a href="../transaksiclone.php" class="btn btn-link">Batal</a>
                             <input id="submitPayment" type="Submit" class="btn btn-primary float-right" value="Konfirmasi Pembayaran" name="confirm" disabled>
                         </div>
                     </form>
@@ -115,7 +116,7 @@
             </div>
         </div>
     </div>
-    <form id="modal-item-list" class="modal" tabindex="-1" role="dialog" action="transaksi.php" method="POST">
+    <form id="modal-item-list" class="modal" tabindex="-1" role="dialog" action="transaksiclone.php" method="POST">
         <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -217,7 +218,7 @@
                 cancelButtonText: 'Batal'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    window.location.href = "transaksi.php?delete"
+                    window.location.href = "transaksiclone.php?delete"
                 }
             })
         }
