@@ -129,9 +129,9 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="modal-footer">
+                <!-- <div class="modal-footer">
                     <input class="btn btn-success" type="Submit" value="Tambahkan" name="addToCart">
-                </div>
+                </div> -->
             </div>
         </div>
     </form>
