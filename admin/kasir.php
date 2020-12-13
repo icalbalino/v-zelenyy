@@ -3,6 +3,7 @@
 	auth("admin");
 	if(isset($_POST['tambah'])){
 		$tambah = insertKasir($_POST['nama'],$_POST['username'],$_POST['password']);
+		Header("Location: kasir.php");
 	}
 	if(isset($_POST['update'])){
 		$update = updateKasir($_POST['id'], $_POST['nama'],$_POST['username'],$_POST['password']);

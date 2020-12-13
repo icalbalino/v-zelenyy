@@ -3,6 +3,7 @@
 	auth("admin");
 	if(isset($_POST['tambah'])){
 		$tambah = insertItem($_POST['nama'],$_POST['stok'],$_POST['harga']);
+        Header("Location: stokbarang.php");
 	}
 	if(isset($_POST['update'])){
 		$update = updateItem($_POST['id'], $_POST['nama'],$_POST['stok'],$_POST['harga']);
