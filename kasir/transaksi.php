@@ -1,5 +1,6 @@
 <?php
         require_once('../functions.php');
+        auth("kasir");
         $items = select_items();
         $carts = [];
         if(isset($_GET['delete'])){
@@ -26,7 +27,9 @@
                 $data['nama'] = $item['nama'];
                 $data['harga'] = $item['harga'];
                 $data['qty'] = $_POST['qty'][$id];
-                array_push($carts, $data);
+                if($data != null){
+                    array_push($carts, $data);
+                }
                 header("Location: transaksi.php");
             }
             
@@ -150,6 +153,7 @@
                             <th>Id</th>
                             <th>Nama</th>
                             <th>Harga Satuan</th>
+                            <th>Stok</th>
                             <th>Kuantitas</th>
                         </thead>
                         <tbody>
@@ -163,7 +167,8 @@
                                         <td><input type="checkbox" name="checked['.$item['id'].']">&nbsp;'.$item['id'].'</td>
                                         <td>'.$item["nama"].'</td>
                                         <td>'.$item['harga'].'</td>
-                                        <td><input class="form-control" type="number" name="qty['.$item['id'].']" value=0 style="width: 128px"></td>
+                                        <td>'.$item['stok'].'</td>
+                                        <td><input class="form-control" type="number" min="0" max="'.$item['stok'].'" name="qty['.$item['id'].']" value=0 style="width: 128px"></td>
                                     </tr>
                                 ';
                                 $i++;

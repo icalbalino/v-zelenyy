@@ -1,5 +1,6 @@
 <?php
     require_once("../functions.php");
+    auth("admin");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -41,24 +42,25 @@
         </div>
 
         <div class="col container-fluid content">
-            <div class="alert alert-success mt-3" role="alert">
-                Halo, <?php echo $_SESSION['user']['nama']?>
-            </div>
-            <p>Ringkasan hari ini</p>
+            <div class=" h3 alert alert-success mt-3" role="alert"> Halo, <?php echo $_SESSION['user']['nama']?> </div>
+            <h4>Ringkasan hari ini</h4>
+            
             <div class="card border-0 bg-light">
-                <div class="card-body shadow-sm">
-                    <div class="row">
-                        <div class="col d-flex flex-column justify-content-center align-items-center">
-                            <div class="h4">
-                                Pembeli
-                            </div>
-                            <div>20</div>
+                <div class="card-body card-shadow">
+                    <div class="row padd justify-content space-between">
+                        <div class="col-sm-3 padd card-shadow border-rad d-flex flex-column align-items-center">
+                            <div class="h4">Pembeli</div>
+                            <div class="h6" style="color: #285A84"><?php echo countTrx($_SESSION['user']['id']) ?></div>
                         </div>
-                        <div class="col d-flex flex-column justify-content-center align-items-center">
-                            <div class="h4">
-                                Transaksi
-                            </div>
-                            <div>20</div>
+                        <div class="col"></div>
+                        <div class="col-sm-3 padd card-shadow border-rad d-flex flex-column align-items-center">
+                            <div class="h4">Transaksi</div>
+                            <div class="h6" style="color: #285A84"><?php echo sumSubtotal($_SESSION['user']['id'])?></div>
+                        </div>
+                        <div class="col"></div>
+                        <div class="col-sm-3 padd card-shadow border-rad d-flex flex-column align-items-center">
+                            <div class="h4">Barang</div>
+                            <div class="h6" style="color: #285A84"><?php echo sumItem($_SESSION['user']['id'])?></div>
                         </div>
                     </div>
                 </div>

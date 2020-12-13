@@ -1,7 +1,16 @@
 <?php
 	require_once('../functions.php');
+	auth("admin");
 	if(isset($_POST['tambah'])){
 		$tambah = insertItem($_POST['nama'],$_POST['stok'],$_POST['harga']);
+	}
+	if(isset($_POST['update'])){
+		$update = updateItem($_POST['id'], $_POST['nama'],$_POST['stok'],$_POST['harga']);
+		if($update){
+			Header("Location: stokbarang.php");
+		}else{
+			echo "error";
+		}
 	}
 	$items = select_items();
 ?>
@@ -76,10 +85,11 @@
     					<td>'.$item['harga'].'</td>
     					<td col-2>
     					    <div class="container">
-    						<button type="button" class="btn btn-success text-light" data-toggle="modal" data-target="#myModal">UPDATE</button>
+    						<button type="button" class="btn btn-success text-light" data-toggle="modal" data-target="#myModal-'.$item['id'].'">UPDATE</button>
     							<div>
-    								<div class="modal" id="myModal">
-    								<form class="modal-dialog modal-xl" method="post">
+    								<div class="modal p-3" id="myModal-'.$item['id'].'">
+									<form class="modal-dialog modal-xl" method="post">
+										<input class="form-control" type="text" hidden name="id" value="'.$item['id'].'">
     									<div class="modal-content">
     										<div class="model-header">
     											<h4 class="modal-title">UPDATE ITEM</h4>
@@ -90,15 +100,15 @@
     											<table class="table table-bordered">
     										<tr>
     											<th class="table-info" width="15%" nowrap>Nama item</th>
-    											<td><input class="form-control" type="text" name="nama" required></td>
+    											<td><input class="form-control" type="text" name="nama" value="'.$item['nama'].'" required></td>
     										</tr>
     										<tr>
 												<th class="table-info">Stok</th>
-												<td><input class="form-control" type="text" name="stok" required></td>
+												<td><input class="form-control" type="number" min="0" name="stok" value="'.$item['stok'].'" required></td>
 											</tr>
 											<tr>
 												<th class="table-info">Harga</th>
-												<td><input class="form-control" type="text" name="harga" required></td>
+												<td><input class="form-control" type="number" min="1" name="harga" value="'.$item['harga'].'"  required></td>
 											</tr>
     									</table>
     							</div>
@@ -120,10 +130,39 @@
 					</tr>
     		</table>
     		<div class="container">
-    			<button type="button" class="btn btn-info text-light" data-toggle="modal" data-target="#myModal">TAMBAH</button>
-
     			<div>
     				<div class="modal" id="myModal">
+    					<form class="modal-dialog modal-xl" method="post">
+    						<div class="modal-content">
+    							<div class="model-header">
+    								<h4 class="modal-title">TAMBAH ITEM</h4>
+    								<button type="button" class="close" data-dismiss="modal">&times;</button>
+    							</div>
+    							
+    							<div class="modal-body">
+    									<table class="table table-bordered">
+    										<tr>
+    											<th class="table-info" width="15%" nowrap>Nama item</th>
+    											<td><input class="form-control" type="text" name="nama" required></td>
+    										</tr>
+    										<tr>
+												<th class="table-info">Stok</th>
+												<td><input class="form-control" type="text" name="stok" required></td>
+											</tr>
+											<tr>
+												<th class="table-info">Harga</th>
+												<td><input class="form-control" type="text" name="harga" required></td>
+											</tr>
+    									</table>
+    							</div>
+    							<div class="modal-footer">
+    								<input type="submit" class="btn btn-info" name="tambah" value="TAMBAH">
+    							</div>
+    						</div>
+    					</form>
+    				</div>
+
+					<div class="modal" id="modal-update">
     					<form class="modal-dialog modal-xl" method="post">
     						<div class="modal-content">
     							<div class="model-header">
@@ -156,6 +195,7 @@
     			</div>
     		</div>
     	</div>
+		<button type="button" class="btn btn-info text-light mt-3" data-toggle="modal" data-target="#myModal">TAMBAH</button>
     </div>
 </body>
 </html>

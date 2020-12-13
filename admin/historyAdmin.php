@@ -1,5 +1,6 @@
 <?php
         require_once('../functions.php');
+        auth("admin");
         $trxes = selectTrxes();
         if(isset($_GET['detail'])){
             $detailTrxes = selectDetailTrxes($_GET['detail']);

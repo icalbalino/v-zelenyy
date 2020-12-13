@@ -1,5 +1,6 @@
 <?php
     require_once("../functions.php");
+    auth("kasir");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -49,17 +50,17 @@
                     <div class="row padd justify-content space-between">
                         <div class="col-sm-3 padd card-shadow border-rad d-flex flex-column align-items-center">
                             <div class="h4">Pembeli</div>
-                            <div class="h6" style="color: #285A84">0[not found]</div>
+                            <div class="h6" style="color: #285A84"><?php echo countTrx($_SESSION['user']['id']) ?></div>
                         </div>
                         <div class="col"></div>
                         <div class="col-sm-3 padd card-shadow border-rad d-flex flex-column align-items-center">
                             <div class="h4">Transaksi</div>
-                            <div class="h6" style="color: #285A84">0[not found]</div>
+                            <div class="h6" style="color: #285A84"><?php echo sumSubtotal($_SESSION['user']['id'])?></div>
                         </div>
                         <div class="col"></div>
                         <div class="col-sm-3 padd card-shadow border-rad d-flex flex-column align-items-center">
                             <div class="h4">Barang</div>
-                            <div class="h6" style="color: #285A84">0[not found]</div>
+                            <div class="h6" style="color: #285A84"><?php echo sumItem($_SESSION['user']['id'])?></div>
                         </div>
                     </div>
                 </div>

@@ -1,5 +1,6 @@
 <?php
         require_once('../functions.php');
+        auth("kasir");
         $trxes = selectTrxes($_SESSION['user']['id']);
         if(isset($_GET['detail'])){
             $detailTrxes = selectDetailTrxes($_GET['detail']);
@@ -58,7 +59,7 @@
         </div>
 
         <div class="col container-fluid content">
-            <div class="p-5">
+            <div class="p-5" style="max-height: 80vh; overflow-y: scroll">
                 <table class="table table-striped">
                     <thead>
                         <tr>
@@ -97,8 +98,8 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body vh-50 mh-50">
-                    <table class="table" id="item-table" data-page-length='5'>
+                <div class="p-5">
+                    <table class="table" id="item-table" data-page-length='5' style="height: 200px">
                         <thead>
                             <th>Id</th>
                             <th>Nama</th>

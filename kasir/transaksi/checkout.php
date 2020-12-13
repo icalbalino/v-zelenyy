@@ -142,7 +142,7 @@
                                         <td><input type="checkbox" name="checked['.$item['id'].']">&nbsp;'.$item['id'].'</td>
                                         <td>'.$item["nama"].'</td>
                                         <td>'.$item['harga'].'</td>
-                                        <td><input type="number" name="qty['.$item['id'].']" value=0></td>
+                                        <td><input type="number" name="qty['.$item['id'].']" value=0 min=0></td>
                                     </tr>
                                 ';
                                 $i++;
