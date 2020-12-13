@@ -316,7 +316,7 @@ function sumSubtotal($kasir_id=""){
     global $con;
 
     $hasil = array();
-    if($kasir_id==""){
+    if($kasir_id!=""){
         $sql = "select sum(s.subtotal) as subtotal from
 (SELECT sum(subtotal) as subtotal FROM `trx` join detail_trx where trx.id = detail_trx.trx_id and date_format(trx.tanggal, '%Y-%m-%d') = curdate() group by trx.id) as s";
     }else{
@@ -353,7 +353,7 @@ function sumItem($kasir_id=""){
 global $con;
 
     $hasil = array();
-    if($kasir_id==""){
+    if($kasir_id!=""){
         $sql = "select sum(s.qty) qty from
 (SELECT sum(dt.qty) qty FROM `trx` t join detail_trx dt where dt.trx_id = t.id and date_format(t.tanggal, '%Y-%m-%d') = curdate() group by t.id) s";
     }else{
